@@ -2,7 +2,7 @@ import 'package:go_router/go_router.dart';
 
 import '../shared/splash_page.dart';
 import '../features/authentication/presentation/login_page.dart';
-import '../features/dashboard/presentation/dashboard_page.dart';
+import '../features/dashboard/presentation/pages/dashboard_page.dart';
 
 final appRouter = GoRouter(
   initialLocation: "/",
