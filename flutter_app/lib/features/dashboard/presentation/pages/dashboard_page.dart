@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../ai_prediction/presentation/pages/ai_dashboard_page.dart';
 import '../../../zones/presentation/pages/zone_details_page.dart';
 import '../../data/mock_sensor_history.dart';
 import '../../domain/models/zone.dart';
@@ -75,9 +76,23 @@ class _DashboardPageState
         centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.notifications_outlined),
+            icon: const Icon(Icons.psychology),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) =>
+                      const AIDashboardPage(),
+                ),
+              );
+            },
+          ),
+
+          IconButton(
+            icon: const Icon(Icons.notifications),
             onPressed: () {},
           ),
+
         ],
       ),
 
@@ -235,7 +250,7 @@ class _DashboardPageState
                 ),
               );
 
-            }).toList(),
+            }),
 
             const SizedBox(height: 20),
 
