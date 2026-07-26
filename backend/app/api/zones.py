@@ -8,11 +8,11 @@ def get_zones():
     return [
         {
             "id": "1",
-            "name": "Server Room",
+            "name": "API Checking Zone",
             "status": "critical",
             "temperature": 52,
             "humidity": 38,
-            "gasLevel": 650,
+            "gasLevel": 700,
             "fireDetected": True
         },
         {
@@ -29,7 +29,7 @@ def get_zones():
             "name": "Robotics Lab",
             "status": "safe",
             "temperature": 29,
-            "humidity": 58,
+            "humidity": 79,
             "gasLevel": 90,
             "fireDetected": False
         }
