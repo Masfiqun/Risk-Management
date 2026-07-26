@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -29,7 +31,7 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
         zones: zones,
       );
 
-      await simulateSensorUpdate();
+      startListening();
     } catch (e) {
       state = state.copyWith(
         isLoading: false,
@@ -42,43 +44,28 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
     await loadDashboard();
   }
 
-  Future<void> simulateSensorUpdate() async {
-    await Future.delayed(
-      const Duration(seconds: 5),
-    );
-
-    final updated = [...state.zones];
-
-    if (updated.isNotEmpty) {
-      final zone = updated.first;
-
-      updated[0] = Zone(
-        id: zone.id,
-        name: zone.name,
-        status: ZoneStatus.warning,
-        temperature: zone.temperature + 2,
-        humidity: zone.humidity,
-        gasLevel: zone.gasLevel + 40,
-        fireDetected: zone.fireDetected,
-      );
-    }
-
-    state = state.copyWith(
-      zones: updated,
-    );
-  }
-
   void startListening() {
+    debugPrint("Starting WebSocket...");
+
     websocket.connect();
+
+    debugPrint("WebSocket Connected");
 
     websocket.stream.listen(
       (event) {
-        debugPrint("Received: $event");
+        debugPrint("========== WEBSOCKET ==========");
+        debugPrint(event.toString());
 
-        // We'll parse JSON later
+        final data = jsonDecode(event);
+
+        debugPrint(data.toString());
+        debugPrint("===============================");
       },
       onError: (e) {
         debugPrint("WebSocket Error: $e");
+      },
+      onDone: () {
+        debugPrint("WebSocket Closed");
       },
     );
   }

@@ -27,12 +27,12 @@ class Zone {
   factory Zone.fromJson(Map<String, dynamic> json) {
     return Zone(
       id: json["id"].toString(),
-      name: json["name"],
-      status: _parseStatus(json["status"]),
-      temperature: (json["temperature"] as num).toDouble(),
-      humidity: (json["humidity"] as num).toDouble(),
-      gasLevel: (json["gasLevel"] as num).toDouble(),
-      fireDetected: json["fireDetected"],
+      name: json["name"] ?? "",
+      status: _parseStatus(json["status"] ?? "offline"),
+      temperature: (json["temperature"] as num?)?.toDouble() ?? 0,
+      humidity: (json["humidity"] as num?)?.toDouble() ?? 0,
+      gasLevel: (json["gas_Level"] as num?)?.toDouble() ?? 0,
+      fireDetected: json["fire_Detected"] ?? false,
     );
   }
 

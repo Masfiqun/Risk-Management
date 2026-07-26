@@ -1,8 +1,6 @@
-import 'dart:convert';
-
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-import '../constants/api_constants.dart';
+import 'api_constants.dart';
 
 class WebSocketService {
   WebSocketChannel? _channel;
@@ -13,15 +11,13 @@ class WebSocketService {
     );
   }
 
-  Stream<dynamic> get stream => _channel!.stream;
+  Stream get stream => _channel!.stream;
 
-  void send(Map<String, dynamic> data) {
-    _channel?.sink.add(jsonEncode(data));
+  void send(String message) {
+    _channel?.sink.add(message);
   }
 
-  void disconnect() {
+  void dispose() {
     _channel?.sink.close();
   }
-
-  bool get isConnected => _channel != null;
 }
