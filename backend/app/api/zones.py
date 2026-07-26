@@ -1,36 +1,33 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+
+from app.database.session import get_db
+from app.schemas.zone import ZoneCreate, ZoneResponse
+from app.services.zone_service import ZoneService
 
 router = APIRouter()
 
 
-@router.get("/zones")
-def get_zones():
-    return [
-        {
-            "id": "1",
-            "name": "API Checking Zone",
-            "status": "critical",
-            "temperature": 52,
-            "humidity": 38,
-            "gasLevel": 700,
-            "fireDetected": True
-        },
-        {
-            "id": "2",
-            "name": "IoT Lab",
-            "status": "warning",
-            "temperature": 40,
-            "humidity": 46,
-            "gasLevel": 280,
-            "fireDetected": False
-        },
-        {
-            "id": "3",
-            "name": "Robotics Lab",
-            "status": "safe",
-            "temperature": 29,
-            "humidity": 79,
-            "gasLevel": 90,
-            "fireDetected": False
-        }
-    ]
+@router.get(
+    "/zones",
+    response_model=list[ZoneResponse]
+)
+def get_zones(
+    db: Session = Depends(get_db)
+):
+    return ZoneService.get_all(db)
+
+
+@router.post(
+    "/zones",
+    response_model=ZoneResponse
+)
+def create_zone(
+    zone: ZoneCreate,
+    db: Session = Depends(get_db)
+):
+    return ZoneService.create(
+        db,
+        zone.name,
+        zone.status,
+    )

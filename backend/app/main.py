@@ -1,14 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.zones import router as zones_router
+from app.api import zones
+from app.api import sensor_data
+from app.api import websocket
 
-app = FastAPI(
-    title="SentinelAI API",
-    version="1.0.0",
-)
+app = FastAPI(title="SentinelAI API")
 
-# Development CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -17,11 +15,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(zones_router)
-
-
-@app.get("/")
-def root():
-    return {
-        "message": "SentinelAI Backend Running"
-    }
+app.include_router(zones.router)
+app.include_router(sensor_data.router)
+app.include_router(websocket.router)
