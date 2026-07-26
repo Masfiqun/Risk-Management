@@ -1,16 +1,10 @@
 import '../domain/models/zone.dart';
-import 'mock_zones.dart';
+import 'zone_api_services.dart';
 
 class DashboardRepository {
+  final ZoneApiService apiService = ZoneApiService();
+
   Future<List<Zone>> getZones() async {
-
-    // Later:
-    // final response = await apiService.get(ApiConstants.zones);
-
-    await Future.delayed(
-      const Duration(milliseconds: 500),
-    );
-
-    return mockZones;
+    return await apiService.getZones();
   }
 }

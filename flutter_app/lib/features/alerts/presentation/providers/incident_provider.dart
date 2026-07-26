@@ -1,11 +1,11 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:risk_management/features/alerts/domain/models/incident.dart';
 
-import '../../data/incident_repository.dart';
+import '../../data/mock_incidents.dart';
 
-final incidentRepositoryProvider =
-    Provider((ref) => IncidentRepository());
+class IncidentRepository {
 
-final incidentProvider =
-    Provider((ref) {
-      return ref.read(incidentRepositoryProvider).getIncidents();
-    });
+  List<Incident> getIncidents() {
+    return mockIncidents;
+  }
+
+}
